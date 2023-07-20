@@ -1,4 +1,5 @@
 <template>
+  <h1>Edit member ID: {{ id }}</h1>
   <v-form
     ref="form"
     v-model="valid"
@@ -72,6 +73,7 @@
 <script>
 export default {
   data: () => ({
+    id: null,
     dialog: false,
     dialogMessage: '',
     valid: true,
@@ -85,7 +87,17 @@ export default {
       'electircal power',
     ],
   }),
-
+  async beforeMount() {
+    this.id = this.$route.query.id
+    console.log(this.id)
+    const url = `http://localhost:7001/member?id=${this.id}`
+    console.log(url)
+    const res = await fetch(url)
+    const data = await res.json()
+    this.username = data.data.username
+    this.password = data.data.password
+    this.dep = data.data.dep
+  },
   methods: {
     reset () {
       this.$refs.form.reset()

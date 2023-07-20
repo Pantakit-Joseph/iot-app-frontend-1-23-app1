@@ -30,7 +30,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -42,7 +41,7 @@ export default {
       // const url = 'http://localhost:7001/list'
       // const res = await fetch(url)
       // const data = await res.json()
-      const res = await this.$api('http://localhost:7001/list')
+      const res = await this.$api('list')
       const data = res.data
       this.items = data.data
       console.table(data)

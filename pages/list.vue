@@ -1,114 +1,67 @@
 <template>
-  <h1>Hello</h1>
-  <v-data-table
-    v-model:items-per-page="itemsPerPage"
-    :headers="headers"
-    :items="desserts"
-    item-value="name"
-    class="elevation-1"
-  ></v-data-table>
+  <h1>Member List</h1>
+  <v-btn color="primary" @click="doList">
+    List
+  </v-btn>
+  <v-table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>dep</th>
+        <th colspan="2">
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in items" :key="item.id">
+        <td>{{ item.id }}</td>
+        <td>{{ item.username }}</td>
+        <td>{{ item.password }}</td>
+        <td>{{ item.dep }}</td>
+        <td>
+          <v-icon
+            @click="editItem(item.id)"
+            aria-hidden="false"
+          >
+            mdi-pencil
+          </v-icon>
+        </td>
+        <td>
+          <v-icon
+            @click="deleteItem(item.id)"
+            aria-hidden="false"
+          >
+            mdi-delete
+          </v-icon>
+        </td>
+      </tr>
+    </tbody>
+  </v-table>
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
-      itemsPerPage: 5,
-      headers: [
-        {
-          title: 'Dessert (100g serving)',
-          align: 'start',
-          sortable: false,
-          key: 'name',
-        },
-        { title: 'Calories', align: 'end', key: 'calories' },
-        { title: 'Fat (g)', align: 'end', key: 'fat' },
-        { title: 'Carbs (g)', align: 'end', key: 'carbs' },
-        { title: 'Protein (g)', align: 'end', key: 'protein' },
-        { title: 'Iron (%)', align: 'end', key: 'iron' },
-      ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1',
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0',
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6',
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7',
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16',
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1',
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2',
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8',
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45',
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22',
-        },
-      ],
+      name: 'alongkorn',
+      age: 50,
+      items: [],
     }
+  },
+  methods: {
+    async doList() {
+      const url = 'http://localhost:7001/list'
+      const res = await fetch(url)
+      const data = await res.json()
+      this.items = data.data
+    },
+
+    async editItem(id) {
+      // this.$router.push(`/edit?id=${id}`)
+      await navigateTo(`/edit?id=${id}`)
+    },
   },
 }
 </script>
