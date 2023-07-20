@@ -1,90 +1,79 @@
 <template>
-  <v-sheet width="300" class="mx-auto">
-    <v-form ref="form">
-      <v-text-field
-        v-model="name"
-        :counter="10"
-        :rules="nameRules"
-        label="Name"
-        required
-      ></v-text-field>
+  <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation
+  >
+    <v-text-field
+      v-model="username"
+      :counter="10"
+      label="username"
+      required
+    ></v-text-field>
 
-      <v-select
-        v-model="select"
-        :items="items"
-        :rules="[v => !!v || 'Item is required']"
-        label="Item"
-        required
-      ></v-select>
+    <v-text-field
+      v-model="password"
+      label="password"
+      required
+    ></v-text-field>
 
-      <v-checkbox
-        v-model="checkbox"
-        :rules="[v => !!v || 'You must agree to continue!']"
-        label="Do you agree?"
-        required
-      ></v-checkbox>
+    <v-select
+      v-model="dep"
+      :items="items"
+      label="Item"
+      required
+    ></v-select>
 
-      <div class="d-flex flex-column">
-        <v-btn
-          color="success"
-          class="mt-4"
-          block
-          @click="validate"
-        >
-          Validate
-        </v-btn>
+    <v-btn
+      color="error"
+      class="mr-4"
+      @click="reset"
+    >
+      Reset Form
+    </v-btn>
 
-        <v-btn
-          color="error"
-          class="mt-4"
-          block
-          @click="reset"
-        >
-          Reset Form
-        </v-btn>
-
-        <v-btn
-          color="warning"
-          class="mt-4"
-          block
-          @click="resetValidation"
-        >
-          Reset Validation
-        </v-btn>
-      </div>
-    </v-form>
-  </v-sheet>
+    <v-btn
+      color="primary"
+      @click="doSave"
+    >
+      Save
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
 export default {
   data: () => ({
-    name: '',
-    nameRules: [
-      v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-    ],
-    select: null,
+    valid: true,
+    username: '',
+    password: '',
+    dep: null,
     items: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4',
+      'IT',
+      'computer',
+      'electronic',
+      'electircal power',
     ],
-    checkbox: false,
   }),
 
   methods: {
-    async validate () {
-      const { valid } = await this.$refs.form.validate()
 
-      if (valid) alert('Form is valid')
-    },
     reset () {
       this.$refs.form.reset()
     },
-    resetValidation () {
-      this.$refs.form.resetValidation()
+    async doSave () {
+      console.table({
+        username: this.username,
+        password: this.password,
+        dep: this.dep,
+      })
+      const url = 'http://localhost:7001/register' +
+      '?username=' + this.username +
+      '&password=' + this.password +
+      '&dep=' + this.dep
+      const res = await fetch(url)
+      const data = await res.json()
+      console.log(data)
     },
   },
 }

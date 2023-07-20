@@ -1,4 +1,5 @@
 <template>
+  <h1>Hello</h1>
   <v-data-table
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
@@ -7,7 +8,6 @@
     class="elevation-1"
   ></v-data-table>
 </template>
-
 <script>
 export default {
   data () {

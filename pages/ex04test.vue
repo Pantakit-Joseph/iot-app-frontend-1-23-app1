@@ -39,11 +39,13 @@ export default {
   },
   methods: {
     async doList() {
-      const url = 'http://localhost:7001/list'
-      const res = await fetch(url)
-      const data = await res.json()
+      // const url = 'http://localhost:7001/list'
+      // const res = await fetch(url)
+      // const data = await res.json()
+      const res = await this.$api('http://localhost:7001/list')
+      const data = res.data
       this.items = data.data
-      console.table(data.data)
+      console.table(data)
     },
   },
 }
