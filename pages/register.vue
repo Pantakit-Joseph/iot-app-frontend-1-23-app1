@@ -77,7 +77,7 @@ export default {
     valid: true,
     username: '',
     password: '',
-    dep: null,
+    dep: '',
     items: [
       'IT',
       'computer',
@@ -111,6 +111,9 @@ export default {
         this.dialogMessage = 'บันทึกไม่สําเร็จ'
       }
       this.dialog = true
+      this.username = ''
+      this.password = ''
+      this.dep = ''
     },
   },
 }

@@ -35,9 +35,9 @@
 
     <v-btn
       color="primary"
-      @click="doSave"
+      @click="doUpdate"
     >
-      Save
+      Update
     </v-btn>
   </v-form>
 
@@ -102,14 +102,16 @@ export default {
     reset () {
       this.$refs.form.reset()
     },
-    async doSave () {
+
+    async doUpdate () {
       console.table({
         username: this.username,
         password: this.password,
         dep: this.dep,
       })
-      const url = 'http://localhost:7001/insert' +
-      '?name=' + this.username +
+      const url = 'http://localhost:7001/update' +
+      '?id=' + this.id +
+      '&username=' + this.username +
       '&password=' + this.password +
       '&dep=' + this.dep
       console.log(url)
@@ -118,9 +120,9 @@ export default {
       console.log(data)
 
       if (data.ok === 1) {
-        this.dialogMessage = 'บันทึกสําเร็จ'
+        this.dialogMessage = 'แก้ไขข้อมูลสําเร็จ'
       } else {
-        this.dialogMessage = 'บันทึกไม่สําเร็จ'
+        this.dialogMessage = 'แก้ไขข้อมูลไม่สําเร็จ'
       }
       this.dialog = true
     },
