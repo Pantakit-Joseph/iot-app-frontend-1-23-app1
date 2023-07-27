@@ -24,12 +24,7 @@
 <script>
 
 export default {
-  setup() {
-    const config = useRuntimeConfig().public
-    return {
-      config,
-    }
-  },
+
   data() {
     return {
       name: 'Pantakit',
@@ -44,7 +39,7 @@ export default {
   methods: {
     async onSave() {
       console.log(this.name)
-      const url = this.config.apiBaseUrl
+      const url = this.$apiBaseUrl
       const data = await fetch(url)
       console.log('data=>', data)
     },

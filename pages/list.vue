@@ -108,9 +108,7 @@
 <script>
 export default {
   setup() {
-    const config = useRuntimeConfig().public
     return {
-      config,
       confirmId: null,
     }
   },
@@ -138,7 +136,7 @@ export default {
     },
     async doList() {
       console.log(this.config)
-      const url = this.config.apiBaseUrl + '/list'
+      const url = this.$apiBaseUrl + '/list'
       const res = await fetch(url)
       const data = await res.json()
       this.items = data.data
@@ -149,7 +147,7 @@ export default {
       await navigateTo(`/edit?id=${id}`)
     },
     async deleteItem() {
-      const url = this.config.apiBaseUrl +
+      const url = this.$apiBaseUrl +
         '/delete' +
         '?id=' + this.confirmId
       const res = await fetch(url)

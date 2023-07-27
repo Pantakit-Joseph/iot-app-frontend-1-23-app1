@@ -30,12 +30,7 @@
 </template>
 <script>
 export default {
-  setup() {
-    const config = useRuntimeConfig().public
-    return {
-      config,
-    }
-  },
+
   data() {
     return {
       name: 'alongkorn',
@@ -55,7 +50,7 @@ export default {
   methods: {
     async onSave() {
       console.log(this.name)
-      const url = this.config.apiBaseUrl + '/list'
+      const url = this.$apiBaseUrl + '/list'
       const res = await fetch(url)
       const data = await res.json()
       this.student = data.data

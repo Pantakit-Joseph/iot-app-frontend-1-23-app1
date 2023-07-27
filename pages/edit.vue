@@ -72,12 +72,7 @@
 
 <script>
 export default {
-  setup() {
-    const config = useRuntimeConfig().public
-    return {
-      config,
-    }
-  },
+
   data: () => ({
     id: null,
     dialog: false,
@@ -96,7 +91,7 @@ export default {
   async beforeMount() {
     this.id = this.$route.query.id
     console.log(this.id)
-    const url = this.config.apiBaseUrl + `/member?id=${this.id}`
+    const url = this.$apiBaseUrl + `/member?id=${this.id}`
     console.log(url)
     const res = await fetch(url)
     const data = await res.json()
@@ -115,7 +110,7 @@ export default {
         password: this.password,
         dep: this.dep,
       })
-      const url = this.config.apiBaseUrl + '/update' +
+      const url = this.$apiBaseUrl + '/update' +
       '?id=' + this.id +
       '&username=' + this.username +
       '&password=' + this.password +
