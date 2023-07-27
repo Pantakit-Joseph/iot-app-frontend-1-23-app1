@@ -71,6 +71,12 @@
 
 <script>
 export default {
+  setup() {
+    const config = useRuntimeConfig().public
+    return {
+      config,
+    }
+  },
   data: () => ({
     dialog: false,
     dialogMessage: '',
@@ -96,7 +102,7 @@ export default {
         password: this.password,
         dep: this.dep,
       })
-      const url = 'http://localhost:7001/insert' +
+      const url = this.config.apiBaseUrl + '/insert' +
       '?name=' + this.username +
       '&password=' + this.password +
       '&dep=' + this.dep
