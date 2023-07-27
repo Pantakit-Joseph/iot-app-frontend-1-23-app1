@@ -63,10 +63,16 @@
                     sm="6"
                     md="4"
                   >
-                    <v-text-field
+                    <!-- <v-text-field
                       v-model="editedItem.dep"
                       label="Department"
-                    ></v-text-field>
+                    ></v-text-field> -->
+                    <v-select
+                      v-model="editedItem.dep"
+                      :items="depts"
+                      label="Department"
+                      required
+                    ></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -212,6 +218,12 @@ export default {
       password: '',
       dep: '',
     },
+    depts: [
+      'IT',
+      'computer',
+      'electronic',
+      'electircal power',
+    ],
   }),
 
   computed: {
