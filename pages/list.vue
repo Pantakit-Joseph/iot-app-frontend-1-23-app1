@@ -125,6 +125,9 @@ export default {
       items: [],
     }
   },
+  mounted() {
+    this.doList()
+  },
   methods: {
     closeDialog() {
       this.dialog = false
