@@ -115,7 +115,7 @@ export default {
         password: this.password,
         dep: this.dep,
       })
-      const url = 'http://localhost:7001/update' +
+      const url = this.config.apiBaseUrl + '/update' +
       '?id=' + this.id +
       '&username=' + this.username +
       '&password=' + this.password +
