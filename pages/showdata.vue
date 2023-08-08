@@ -323,12 +323,13 @@ export default {
       })
     },
     async doEdit () {
-      const res = await this.$api.get('/update' +
-      '?id=' + this.editedItem.id +
-      '&username=' + this.editedItem.username +
-      '&password=' + this.editedItem.password +
-      '&dep=' + this.editedItem.dep,
-      )
+      // const res = await this.$api.get('/edit' +
+      // '?id=' + this.editedItem.id +
+      // '&username=' + this.editedItem.username +
+      // '&password=' + this.editedItem.password +
+      // '&dep=' + this.editedItem.dep,
+      // )
+      const res = await this.$api.post('/edit', this.editedItem)
       const data = res.data
       if (data.ok !== 1) {
         this.openAlert('สถานะการแก้ไขข้อมูล', 'แก้ไขไม่สําเร็จ')
