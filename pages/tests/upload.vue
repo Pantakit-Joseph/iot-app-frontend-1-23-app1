@@ -8,7 +8,7 @@
 <script>
 export default {
   data: () => ({
-    files: []
+    files: [],
   }),
   methods: {
     async submit() {
@@ -17,10 +17,10 @@ export default {
 
       formData.append('id', 1234)
       for (const file of this.files) {
-        formData.append('file', file)
+        formData.append('files', file)
       }
       await this.$api.post('/test/upload', formData)
-    }
-  }
+    },
+  },
 }
 </script>
