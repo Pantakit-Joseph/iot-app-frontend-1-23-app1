@@ -6,7 +6,6 @@
           v-model="file"
           label="File input"
           accept="image/*"
-          multiple
         ></v-file-input>
         <v-btn color="primary" @click="submit">
           Submit
@@ -25,10 +24,13 @@ export default {
     async submit() {
       console.log(this.file)
       const formData = new FormData()
+
       formData.append('id', 1234)
+      for (const item of this.file) {
+        formData.append('file', item)
+      }
       const res = await this.$api.post('/upload', formData)
-      const data = res.data
-      console.log(data)
+      console.log(res)
     },
   },
 }

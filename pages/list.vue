@@ -10,6 +10,7 @@
         <th>Username</th>
         <th>Password</th>
         <th>dep</th>
+        <th>Picture</th>
         <th colspan="2">
           Action
         </th>
@@ -21,6 +22,15 @@
         <td>{{ item.username }}</td>
         <td>{{ item.password }}</td>
         <td>{{ item.dep }}</td>
+        <td>
+          <v-img
+            :width="60"
+            :height="60"
+            :aspect-ratio="1"
+            cover
+            :src="$apiBaseUrl+ '/photos/' + item.img"
+          ></v-img>
+        </td>
         <td>
           <v-icon
             @click="editItem(item.id)"

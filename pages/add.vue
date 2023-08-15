@@ -24,6 +24,12 @@
       required
     ></v-select>
 
+    <v-file-input
+      v-model="file"
+      label="File input"
+      accept="image/*"
+    ></v-file-input>
+
     <v-btn
       color="error"
       class="mr-4"
@@ -84,6 +90,7 @@ export default {
       'electronic',
       'electircal power',
     ],
+    file: null,
   }),
 
   methods: {
@@ -96,11 +103,13 @@ export default {
         password: this.password,
         dep: this.dep,
       })
-      const res = await this.$api.post('/add', {
-        username: this.username,
-        password: this.password,
-        dep: this.dep,
-      })
+      const formData = new FormData()
+      formData.append('username', this.username)
+      formData.append('password', this.password)
+      formData.append('dep', this.dep)
+      formData.append('file', this.file[0])
+
+      const res = await this.$api.post('/add', formData)
       console.log(res)
       const data = res.data
 
