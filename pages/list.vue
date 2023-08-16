@@ -1,55 +1,65 @@
 <template>
-  <h1>Member List</h1>
-  <v-btn color="primary" @click="doList">
-    List
-  </v-btn>
-  <v-table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>dep</th>
-        <th>Picture</th>
-        <th colspan="2">
-          Action
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in items" :key="item.id">
-        <td>{{ item.id }}</td>
-        <td>{{ item.username }}</td>
-        <td>{{ item.password }}</td>
-        <td>{{ item.dep }}</td>
-        <td>
-          <v-img
-            :width="60"
-            :height="60"
-            :aspect-ratio="1"
-            cover
-            :src="$apiBaseUrl+ '/photos/' + item.img"
-          ></v-img>
-        </td>
-        <td>
-          <v-icon
-            @click="editItem(item.id)"
-            aria-hidden="false"
-          >
-            mdi-pencil
-          </v-icon>
-        </td>
-        <td>
-          <v-icon
-            @click="deleteConfirm(item.id)"
-            aria-hidden="false"
-          >
-            mdi-delete
-          </v-icon>
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
+  <v-container>
+    <v-card>
+      <v-card-item>
+        <v-card-title class="text-h6">
+          Member List
+        </v-card-title>
+      </v-card-item>
+      <v-card-text>
+        <v-btn color="primary" @click="doList">
+          List
+        </v-btn>
+        <v-table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>dep</th>
+              <th>Picture</th>
+              <th colspan="2">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in items" :key="item.id">
+              <td>{{ item.id }}</td>
+              <td>{{ item.username }}</td>
+              <td>{{ item.password }}</td>
+              <td>{{ item.dep }}</td>
+              <td>
+                <v-img
+                  width="4rem"
+                  height="4rem"
+                  :aspect-ratio="1"
+                  cover
+                  :src="$apiBaseUrl+ '/photos/' + item.img"
+                ></v-img>
+              </td>
+              <td>
+                <v-icon
+                  @click="editItem(item.id)"
+                  aria-hidden="false"
+                >
+                  mdi-pencil
+                </v-icon>
+              </td>
+              <td>
+                <v-icon
+                  @click="deleteConfirm(item.id)"
+                  aria-hidden="false"
+                >
+                  mdi-delete
+                </v-icon>
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card-text>
+    </v-card>
+  </v-container>
   <v-dialog
     v-model="dialog"
     width="500"
