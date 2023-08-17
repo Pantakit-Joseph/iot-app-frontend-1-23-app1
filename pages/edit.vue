@@ -1,45 +1,65 @@
 <template>
-  <h1>Edit member ID: {{ id }}</h1>
-  <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-  >
-    <v-text-field
-      v-model="username"
-      :counter="10"
-      label="username"
-      required
-    ></v-text-field>
+  <v-container>
+    <v-card>
+      <v-img
+        cover
+        height="250"
+        :src="pictureUrl"
+      ></v-img>
+      <v-card-item>
+        <v-card-title class="text-h6">
+          Edit member ID: {{ id }}
+        </v-card-title>
+      </v-card-item>
+      <v-card-text>
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+        >
+          <v-text-field
+            v-model="username"
+            :counter="10"
+            label="username"
+            required
+          ></v-text-field>
 
-    <v-text-field
-      v-model="password"
-      label="password"
-      required
-    ></v-text-field>
+          <v-text-field
+            v-model="password"
+            label="password"
+            required
+          ></v-text-field>
 
-    <v-select
-      v-model="dep"
-      :items="items"
-      label="Item"
-      required
-    ></v-select>
+          <v-select
+            v-model="dep"
+            :items="items"
+            label="Item"
+            required
+          ></v-select>
+          <v-file-input
+            v-model="file"
+            label="Profile picture"
+            accept="image/*"
+          ></v-file-input>
 
-    <v-btn
-      color="error"
-      class="mr-4"
-      @click="reset"
-    >
-      Reset Form
-    </v-btn>
+          <v-btn
+            color="error"
+            class="mr-4"
+            @click="reset"
+          >
+            Reset Form
+          </v-btn>
 
-    <v-btn
-      color="primary"
-      @click="doUpdate"
-    >
-      Update
-    </v-btn>
-  </v-form>
+          <v-btn
+            color="primary"
+            @click="doUpdate"
+          >
+            Update
+          </v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-container>
 
   <v-dialog
     v-model="dialog"
@@ -87,8 +107,15 @@ export default {
       'electronic',
       'electircal power',
     ],
+    img: '',
+    file: [],
   }),
-  async beforeMount() {
+  computed: {
+    pictureUrl() {
+      return this.img ? this.$apiBaseUrl + '/photos/' + this.img : ''
+    },
+  },
+  async mounted() {
     this.id = this.$route.query.id
     console.log(this.id)
     const url = this.$apiBaseUrl + `/member?id=${this.id}`
@@ -98,6 +125,7 @@ export default {
     this.username = data.data.username
     this.password = data.data.password
     this.dep = data.data.dep
+    this.img = data.data.img
   },
   methods: {
     reset () {
@@ -110,17 +138,21 @@ export default {
         password: this.password,
         dep: this.dep,
       })
-      const url = this.$apiBaseUrl + '/update' +
-      '?id=' + this.id +
-      '&username=' + this.username +
-      '&password=' + this.password +
-      '&dep=' + this.dep
-      console.log(url)
-      const res = await fetch(url)
-      const data = await res.json()
+      const formData = new FormData()
+      formData.append('id', this.id)
+      formData.append('username', this.username)
+      formData.append('password', this.password)
+      formData.append('dep', this.dep)
+      formData.append('file', this.file[0])
+      const res = await this.$api.post('/update', formData)
+      const data = res.data
       console.log(data)
 
       if (data.ok === 1) {
+        this.username = data.data.username
+        this.password = data.data.password
+        this.dep = data.data.dep
+        this.img = data.data.img
         this.dialogMessage = 'แก้ไขข้อมูลสําเร็จ'
       } else {
         this.dialogMessage = 'แก้ไขข้อมูลไม่สําเร็จ'
