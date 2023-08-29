@@ -37,13 +37,6 @@
 <script>
 import * as mqtt from 'mqtt'
 export default {
-  setup() {
-    useHead({
-      script: [
-        '/js/mqtt.min.js',
-      ],
-    })
-  },
   data: () => ({
     temp1: 0,
     temp2: 0,
