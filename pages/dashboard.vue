@@ -35,22 +35,33 @@
 </template>
 
 <script>
-import * as mqtt from 'mqtt'
 export default {
+  setup() {
+    useHead({
+      script: [
+        '/js/mqtt.min.js',
+      ],
+    })
+  },
   data: () => ({
     temp1: 0,
     temp2: 0,
   }),
   created() {
-    this.client = mqtt.connect('ws://broker.emqx.io:8083/mqtt')
+    if (!process.client) {
+      return
+    }
+    this.client = mqtt.connect('ws://broker.emqx.io:8083/mqtt', {
+      protocol: 'ws',
+    })
     this.client.on('connect', () => {
       console.log('on client connect')
-      this.client.subscribe('Pantakit/temp1')
-      this.client.subscribe('Pantakit/temp2')
+      this.client.subscribe('temp1')
+      this.client.subscribe('temp2')
     })
     this.client.on('message', (topic, message) => {
-      if (topic === 'Pantakit/temp1') {
-        console.log('connect_message/temp1')
+      if (topic === 'temp1') {
+        console.log('temp1')
         // message is Buffer
         console.log('GOT:', message.toString())
         this.msg_t = message.toString()
