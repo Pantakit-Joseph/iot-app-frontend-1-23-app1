@@ -29,6 +29,24 @@
         >
           {{ temp2 }}
         </v-progress-circular>
+        <v-progress-linear
+          v-model="DHT.temp"
+          color="blue-grey"
+          height="25"
+        >
+          <template #default="{ value }">
+            <strong>{{ Math.ceil(value) }}%</strong>
+          </template>
+        </v-progress-linear>
+        <v-progress-linear
+          v-model="DHT.humi"
+          color="blue-grey"
+          height="25"
+        >
+          <template #default="{ value }">
+            <strong>{{ Math.ceil(value) }}%</strong>
+          </template>
+        </v-progress-linear>
       </v-card-text>
     </v-card>
   </v-container>
@@ -46,11 +64,12 @@ export default {
   data: () => ({
     temp1: 0,
     temp2: 0,
+    DHT: {
+      temp: 0,
+      humi: 0,
+    },
   }),
-  created() {
-    if (!process.client) {
-      return
-    }
+  beforeMount() {
     this.client = mqtt.connect('ws://broker.emqx.io:8083/mqtt', {
       protocol: 'ws',
     })
@@ -58,16 +77,21 @@ export default {
       console.log('on client connect')
       this.client.subscribe('temp1')
       this.client.subscribe('temp2')
+      this.client.subscribe('joseph/DHT/temp')
+      this.client.subscribe('joseph/DHT/humi')
     })
     this.client.on('message', (topic, message) => {
-      if (topic === 'temp1') {
+      if (topic === 'joseph/DHT/temp') {
         console.log('temp1')
         // message is Buffer
         console.log('GOT:', message.toString())
         this.msg_t = message.toString()
         console.log('data=', this.msg_t)
+        this.DHT.temp = +message
 
         // client.end()
+      } else if (topic === 'joseph/DHT/humi') {
+        this.DHT.humi = +message
       }
     })
   },

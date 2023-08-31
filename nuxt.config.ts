@@ -3,7 +3,7 @@
 // import nodePolyfills from 'rollup-plugin-polyfill-node'
 
 export default defineNuxtConfig({
-  // ssr: false,
+  ssr: false,
   devtools: { enabled: true },
   css: [
     'vuetify/lib/styles/main.sass',
